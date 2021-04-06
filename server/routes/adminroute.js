@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const { registergc, getgc, cancelgc, getwallet, sendmoney, gettransaction, addadminwallet, getorders, creategarbage, editgarbage, deletegarbage,getdata,getrecordbycity } = require('../controller/admincontroller')
-// const { createwallet } = require('../controller/createAdminWallet')
+const { createwallet } = require('../controller/createAdminWallet')
 
 router.post('/registergc', registergc)
 
@@ -10,7 +10,7 @@ router.get('/getgc', getgc)
 
 router.post('/cancelgc', cancelgc)
 
-// router.post('/adminwallet', createwallet)
+router.post('/adminwallet', createwallet)
 
 router.get('/getadminwallet', getwallet)
 

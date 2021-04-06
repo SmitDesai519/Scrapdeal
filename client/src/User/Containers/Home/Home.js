@@ -20,6 +20,7 @@ const Home = (props) => {
 
     useEffect(() => {
         props.getdata()
+        window.scrollTo(0, 0);
     }, [])
 
     return (

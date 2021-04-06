@@ -28,6 +28,7 @@ class PickupReq extends Component {
     }
 
     componentDidMount = async () => {
+        window.scrollTo(0, 0);
         await this.props.getgarbage()
     }
 

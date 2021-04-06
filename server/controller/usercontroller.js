@@ -3,6 +3,7 @@ const Garbage = require("../models/Garbagemodel")
 const UserTransaction=require('../models/userTransaction')
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken")
+const fast2sms=require('fast-two-sms')
 const validateRegisterInput = require("../utils/validation/signup")
 const { sendemail } = require('../utils/Sendemail');
 
@@ -164,6 +165,31 @@ exports.reedommoney=async(req,res)=>{
       await userTra.save()
       return res.status(200).send("ok")
     })
+  } catch (e) {
+    return res.status(400).send(e)
+  }
+}
+
+let ot=""
+exports.sendOtp=async (req,res)=>{
+  try {
+    const otp=Math.floor(100000 + Math.random() * 900000)
+    const resp=await fast2sms.sendMessage({authorization:process.env.SMS_API_KEY,message:`Your registration otp is ${otp}`,numbers:[req.body.mobile]})
+    if(resp.return){
+      ot=otp
+      return res.status(200).send("sent otp successfully")
+    }
+  } catch (e) {
+    return res.status(400).send(e)
+  }
+}
+
+exports.verifyUserByOtp=async(req,res)=>{
+  try {
+    if (ot == req.body.otp) {
+      return res.status(200).send("valid otp")
+    }  
+    return res.status(400).send("invalid otp")
   } catch (e) {
     return res.status(400).send(e)
   }

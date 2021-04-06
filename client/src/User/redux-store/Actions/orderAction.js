@@ -122,3 +122,23 @@ export const getconfirmorder = (id) => {
     }
 }
 
+export const getPickUpSlot=(city)=>{
+    return async dispatch=>{
+        await axios.get('api/order/getpickupslot',{
+            params:{
+                city
+            }
+        }).then(res=>{
+            console.info(res)
+            dispatch({
+                type:actionsTypes.GET_PICKUP_SLOT,
+                pickUpSlot:res.data
+            })
+        }).catch(e=>{
+            dispatch({
+                type: actionsTypes.GET_PICKUP_SLOT_FAILED
+            })
+        })
+    }
+}
+

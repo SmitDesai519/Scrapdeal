@@ -13,6 +13,10 @@ class Forgotpsw extends Component {
         error: ''
     }
 
+    componentDidMount=()=>{
+        window.scrollTo(0, 0);
+    }
+
 
     onConfirm = async (e) => {
         e.preventDefault()

@@ -5,6 +5,11 @@
   align-items: center;
 }
 
+.verify{
+  width: 50%;
+  margin: 100px auto;
+}
+
 textarea, input[type=text], input[type=password], input[type=number] {
   width: 100%;
   padding: 10px;

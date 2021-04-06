@@ -14,6 +14,10 @@ class Passwordrec extends Component {
         pswerror: ""
     }
 
+    componentDidMount=()=>{
+        window.scrollTo(0, 0);
+    }
+
     onSubmit = async (e) => {
 
 

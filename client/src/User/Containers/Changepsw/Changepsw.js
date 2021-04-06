@@ -13,6 +13,10 @@ class Changepsw extends Component {
         berror:''
     }
 
+    componentDidMount=()=>{
+        window.scrollTo(0, 0);
+    }
+
     validate = () => {
         let isValid = true
         let error = {}

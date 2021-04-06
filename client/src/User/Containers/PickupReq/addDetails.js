@@ -19,9 +19,13 @@ class AddDetail extends Component {
         error: {}
     }
 
-    componentDidMount() {
-        window.scrollTo(0, 0);
+    componentDidMount=async()=> {
+        window.scrollTo(0, 0);        
+        await this.props.getPickUpSlot(this.props.user.city)
+        console.info(this.props.pickupslot)
     }
+
+    
 
     validate = () => {
         let error = {}
@@ -76,6 +80,7 @@ class AddDetail extends Component {
     }
 
     render() {
+        console.info(this.props.pickupslot)
         return (
             <div className={classes.main}>
                 <h3 className={classes.title}>Add Your Details</h3>
@@ -102,10 +107,11 @@ class AddDetail extends Component {
                     <label><b>Pickup Slot</b></label><span style={{ color: "red", marginLeft: "20px" }}>{this.state.error.pickupslot ? this.state.error.pickupslot : null}</span>
                     <select className={classes.weight} value={this.state.pickupslot} onChange={(e) => this.setState({ pickupslot: e.target.value })}>
                         <option>select pickup slot</option>
-                        <option>{nd.getDate()}/{nd.getMonth() + 1}/{nd.getFullYear()}  09 AM to 01 PM</option>
-                        <option>{nd.getDate()}/{nd.getMonth() + 1}/{nd.getFullYear()}  02 PM to 06 PM</option>
-                        <option>{nnd.getDate()}/{nnd.getMonth() + 1}/{nnd.getFullYear()}  09 AM to 01 PM</option>
-                        <option>{nnd.getDate()}/{nnd.getMonth() + 1}/{nnd.getFullYear()}  02 PM to 06 PM</option>
+                        {this.props?.pickupslot.map(slot=>(
+                            <>
+                            <option>{slot}</option>
+                            </>
+                        ))}
                     </select>
 
                     <Link to="/"><button className={classes.btncancel}>Cancel</button></Link>
@@ -117,13 +123,19 @@ class AddDetail extends Component {
 
 }
 
+const mapStateToProps = (state) => {
+    return {
+        user: state.User.user,
+        pickupslot:state.Order.pickUpSlot
+    }
+}
+
 const mapdispatchtoprops = (dispatch) => {
     return {
-        sendorder: (order) => dispatch(action.sendorder(order))
+        sendorder: (order) => dispatch(action.sendorder(order)),
+        getPickUpSlot:(city)=>dispatch(action.getPickUpSlot(city))
     }
 }
 
 
-
-
-export default withRouter(connect(null, mapdispatchtoprops)(AddDetail))
+export default withRouter(connect(mapStateToProps, mapdispatchtoprops)(AddDetail))

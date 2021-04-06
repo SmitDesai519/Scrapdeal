@@ -17,6 +17,7 @@ class Orders extends Component {
     }
 
     componentDidMount = async () => {
+        window.scrollTo(0, 0);
         await this.props.getorders()
     }
 

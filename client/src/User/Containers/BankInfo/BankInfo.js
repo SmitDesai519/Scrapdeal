@@ -15,6 +15,10 @@ class BankInfo extends Component {
         error: {}
     }
 
+    componentDidMount=()=>{
+        window.scrollTo(0, 0);
+    }
+
     validate = () => {
         let bankName = this.state.bankName
         let name = this.state.name

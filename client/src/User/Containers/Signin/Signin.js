@@ -15,6 +15,10 @@ class SignIn extends Component {
         errorclass: [classes.name]
     }
 
+    componentDidMount=()=>{
+        window.scrollTo(0, 0);
+    }
+
     changeHandler = (event) => {
         this.setState({
             [event.target.name]: event.target.value,

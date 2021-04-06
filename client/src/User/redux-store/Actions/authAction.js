@@ -193,3 +193,33 @@ export const reedommoney=(money)=>{
         })
     }
 }
+
+export const sendOtp=(mobile)=>{
+    return async dispatch=>{
+        await axios.post('api/users/sendotp',{mobile}).then(res=>{
+            dispatch({
+                type:actionsTypes.SEND_OTP
+            })
+        }).catch((e)=>{
+            dispatch({
+                type:actionsTypes.SEND_OTP_FAILED,
+                error:'otp send failed'
+            })
+        })
+    }
+}
+
+export const verifyUserByOtp=(otp)=>{
+    return async dispatch=>{
+        await axios.post('api/users/verifyuserbyotp',{otp}).then(res=>{
+            dispatch({
+                type:actionsTypes.VERIFY_USER_BY_OTP
+            })
+        }).catch((e)=>{
+            dispatch({
+                type:actionsTypes.VERIFY_USER_BY_OTP_FAILED,
+                error:'verification failed'
+            })
+        })
+    }
+}

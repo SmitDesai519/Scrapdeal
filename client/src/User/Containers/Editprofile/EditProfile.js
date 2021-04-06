@@ -19,6 +19,7 @@ class Editprofile extends Component {
     }
 
     componentDidMount = async () => {
+        window.scrollTo(0, 0);
         await this.props.getUserById()
         await this.props.getgc()
     }
