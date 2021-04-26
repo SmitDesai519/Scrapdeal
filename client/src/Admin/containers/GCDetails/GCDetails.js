@@ -15,7 +15,6 @@ const GCDetails = (props) => {
         name: "",
         email: "",
         mobile: "",
-        citylist: ["Surat", "Rajkot", "Ahmedabad", "Vadodara", "Gandhinagar", "Bhavnagar", "Jamnagar", "Anand", "Navsari", "Morbi", "Bharuch", "Nadiad", "Junagadh", "Amreli",],
         city: '',
         password: "",
         address: "",
@@ -30,6 +29,7 @@ const GCDetails = (props) => {
         async function fetchrecord() {
             await props.getgc()
             await props.getwallet()
+            await props.getcityname()
         }
         fetchrecord()
     }, [])
@@ -219,7 +219,7 @@ const GCDetails = (props) => {
                             <label for="city"><b>Choose city</b><span style={{ color: "red", marginLeft: "20px" }}>{state.errors?.city ? state.errors.city : null}</span></label>
                             <select name="city" id="city" className={classes.city} value={state.city} onChange={(e) => setstate({ ...state, city: e.target.value })}>
                                 <option value="select-city" >select-city</option>
-                                {state.citylist.map(city => {
+                                {props.cityList?.map(city => {
                                     return (
                                         <option value={city} onChange={(e) => setstate({ ...state, city: e.target.value })} key={city}>{city}</option>
                                     )
@@ -258,7 +258,8 @@ const mapStateToProps = (state) => {
     return {
         gcs: state.Admin.gcs.reverse(),
         error: state.Admin.error,
-        adminWalletAmount: state.Admin.adminWalletAmount
+        adminWalletAmount: state.Admin.adminWalletAmount,
+        cityList : state.Admin.cityList
     }
 }
 
@@ -268,7 +269,8 @@ const mapDispatchToProps = (dispatch) => {
         addgc: (gc) => dispatch(actions.addgc(gc)),
         cancelgc: (id) => dispatch(actions.cancelgc(id)),
         getwallet: () => dispatch(actions.getadminwallet()),
-        sendmoney: (id, money) => dispatch(actions.sendmoney(id, money))
+        sendmoney: (id, money) => dispatch(actions.sendmoney(id, money)),
+        getcityname: () => dispatch(actions.getcityname())
     }
 }
 

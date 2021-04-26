@@ -6,6 +6,7 @@ const Orders = require('../models/ordermodel')
 const Garbage = require('../models/Garbagemodel')
 const CompletedOrders = require('../models/confirmedOrder')
 const User = require('../models/usermodel')
+const CityName = require('../models/cityName')
 const bcrypt = require("bcryptjs");
 
 const { SendMailToGc } = require('../utils/SendMailToGc')
@@ -148,13 +149,21 @@ exports.creategarbage = async (req, res) => {
                     return res.status(400).send("garbage already exist")
                 }
             }
-            resp.subcatagory = resp.subcatagory.concat([{
-                name: req.body.garbage.subcatagory,
-                rate: parseInt(req.body.garbage.rate),
-                quntityin: req.body.garbage.quntityin,
-                defaultWeight: parseFloat(req.body.garbage.defaultWeight)
-            }])
-
+            if (req.body.garbage.defaultWeight) {
+                resp.subcatagory = resp.subcatagory.concat([{
+                    name: req.body.garbage.subcatagory,
+                    rate: parseInt(req.body.garbage.rate),
+                    quntityin: req.body.garbage.quntityin,
+                    defaultWeight: parseFloat(req.body.garbage.defaultWeight)
+                }])
+            }
+            else{
+                resp.subcatagory = resp.subcatagory.concat([{
+                    name: req.body.garbage.subcatagory,
+                    rate: parseInt(req.body.garbage.rate),
+                    quntityin: req.body.garbage.quntityin
+                }])
+            }
             await resp.save()
 
             return res.status(200).send("garbage created")
@@ -227,9 +236,9 @@ exports.getrecordbycity = async (req, res) => {
         if (req.query.city === 'allcity') {
             await CompletedOrders.find({}).then(orders => {
                 for (let k = 0; k < orders.length; k++) {
-                    
+
                     const garbage = Object.values(orders[k].garbage)
-                    
+
                     const paperobject = garbage[0]
                     paperweight += parseInt(paperobject[paperobject.length - 1].totalPaperWeight)
                     paperspend += parseInt(paperobject[paperobject.length - 1].totalPaperAmount)
@@ -250,18 +259,18 @@ exports.getrecordbycity = async (req, res) => {
                     otherweight += parseInt(otherobject[otherobject.length - 1].totalOtherWeight)
                     otherspend += parseInt(otherobject[otherobject.length - 1].totalOtherAmount)
                 }
-                
-            }).catch(e=>{
+
+            }).catch(e => {
                 return res.status(400).send(e)
             })
 
-        }else{
-            const city=req.query.city.charAt(0).toUpperCase()+req.query.city.slice(1)
-            await CompletedOrders.find({city}).then(orders => {
+        } else {
+            const city = req.query.city.charAt(0).toUpperCase() + req.query.city.slice(1)
+            await CompletedOrders.find({ city }).then(orders => {
                 for (let k = 0; k < orders.length; k++) {
-                    
+
                     const garbage = Object.values(orders[k].garbage)
-                    
+
                     const paperobject = garbage[0]
                     paperweight += parseInt(paperobject[paperobject.length - 1].totalPaperWeight)
                     paperspend += parseInt(paperobject[paperobject.length - 1].totalPaperAmount)
@@ -282,14 +291,23 @@ exports.getrecordbycity = async (req, res) => {
                     otherweight += parseInt(otherobject[otherobject.length - 1].totalOtherWeight)
                     otherspend += parseInt(otherobject[otherobject.length - 1].totalOtherAmount)
                 }
-                
-            }).catch(e=>{
+
+            }).catch(e => {
                 return res.status(400).send(e)
             })
         }
         return res.status(200).send({ paper: { paperweight, paperspend }, plastic: { plasticweight, plasticspend }, metal: { metalweight, metalspend }, ewaste: { ewastespend, ewasteweight }, other: { otherweight, otherspend } })
-        
+
     } catch (e) {
         return res.status(400).send(e)
+    }
+}
+
+exports.getcityname = async (req,res) =>{
+    try {
+        const cityName = await CityName.find({})
+        return res.status(200).send(cityName)
+    } catch (error) {
+        return res.status(404).send(error)
     }
 }

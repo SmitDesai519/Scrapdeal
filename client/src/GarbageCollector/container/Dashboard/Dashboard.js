@@ -73,7 +73,7 @@ const Dashboard = (props) => {
 
     let tommorowpickup = (
         <div className={classes.todaypickup}>
-            <h4 style={{ margin: "30px 0 0px 130px", fontWeight: "bold" }}>Tommorow Pickup</h4>
+            <h4 style={{ margin: "30px 0 0px 130px", fontWeight: "bold" }}>Tommorrow Pickup</h4>
             {props.tommorowOrder.length === 0 ? <div className={classes.ordercard}><h5 style={{ marginLeft: "400px", padding: "10px" }}>No Orders</h5></div> : null}
             {props.tommorowOrder?.map(orders => {
                 return (

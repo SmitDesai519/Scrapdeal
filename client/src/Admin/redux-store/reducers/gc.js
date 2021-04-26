@@ -14,7 +14,8 @@ const initialState = {
     Plastic:{},
     Metal:{},
     Ewaste:{},
-    Other:{}
+    Other:{},
+    cityList:[]
 }
 
 const store = (state = initialState, action) => {
@@ -135,6 +136,15 @@ const store = (state = initialState, action) => {
                 Other:action.payload.other
             }
         case actionTypes.GET_RECORD_BY_CITY_FAILED:
+            return{
+                ...state
+            }
+        case actionTypes.GET_CITY_NAME:
+            return{
+                ...state,
+                cityList:action.payload[0].cityName
+            }
+        case actionTypes.GET_CITY_NAME_FAILED:
             return{
                 ...state
             }

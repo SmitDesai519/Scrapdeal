@@ -157,42 +157,58 @@ export const deletegarbage = (garbage) => {
             })
         }).catch(e => {
             dispatch({
-                type:actionTypes.DELETE_GARBAGE_FAILED
+                type: actionTypes.DELETE_GARBAGE_FAILED
             })
         })
     }
 }
 
-export const getdata=()=>{
-    return async dispatch=>{
-        await axios.get('/api/admin/getdata').then(res=>{
+export const getdata = () => {
+    return async dispatch => {
+        await axios.get('/api/admin/getdata').then(res => {
             dispatch({
-                type:actionTypes.GET_DATA,
-                payload:res.data
+                type: actionTypes.GET_DATA,
+                payload: res.data
             })
-        }).catch(e=>{
+        }).catch(e => {
             dispatch({
-                type:actionTypes.GET_DATA_FAILED
+                type: actionTypes.GET_DATA_FAILED
             })
         })
     }
 }
 
-export const getrecordbycity=(city)=>{
-    return async dispatch=>{
-        await axios.get('api/admin/getrecordbycity',{
-            params:{
+export const getrecordbycity = (city) => {
+    return async dispatch => {
+        await axios.get('api/admin/getrecordbycity', {
+            params: {
                 city
             }
-        }).then(res=>{
+        }).then(res => {
             dispatch({
-                type:actionTypes.GET_RECORD_BY_CITY,
-                payload:res.data
+                type: actionTypes.GET_RECORD_BY_CITY,
+                payload: res.data
             })
-        }).catch(e=>{
+        }).catch(e => {
             dispatch({
-                type:actionTypes.GET_RECORD_BY_CITY_FAILED
+                type: actionTypes.GET_RECORD_BY_CITY_FAILED
             })
         })
+    }
+}
+
+export const getcityname = () => {
+    return async dispatch => {
+    await axios.get('api/admin/getcityname').then(res=>{
+        dispatch({
+            type:actionTypes.GET_CITY_NAME,
+            payload:res.data
+        })
+        console.log('res.data',res.data)
+    }).catch(e=>{
+        dispatch({
+            type:actionTypes.GET_CITY_NAME_FAILED
+        })
+    })       
     }
 }
